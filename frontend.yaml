@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fishing-frontend
+  labels:
+    app: fishing-frontend
+spec:
+  selector:
+     matchLabels:
+       app: fishing-frontend
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1 
+  template:
+    metadata:
+      labels:
+        app: fishing-frontend
+    spec:
+      containers:
+        - image: gitar91/kluster-frontend
+          imagePullPolicy: Always
+          name: fishing-frontend
+          ports:
+          - containerPort: 80
+          env:
+            - name: PROFILE
+              value: "cluster"
+---
+apiVersion: v1
+kind: Service              
+metadata:
+  name: fishing-frontend-lb
+spec:
+  type: LoadBalancer       
+  ports:
+  - port: 80               
+    protocol: TCP          
+    targetPort: 80         
+  selector:                
+    app: fishing-frontend 
+     

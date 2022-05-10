@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fishing-checker
+  labels:
+    app: fishing-checker
+spec:
+  selector:
+     matchLabels:
+       app: fishing-checker
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1 
+  template:
+    metadata:
+      labels:
+        app: fishing-checker
+    spec:
+      containers:
+        - image: gitar91/kluster-checker
+          imagePullPolicy: Always
+          name: fishing-checker
+          env:
+            - name: KAFKA_SERVER
+              value: "fishing-kafka:9092"
