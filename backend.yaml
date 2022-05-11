@@ -33,9 +33,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: fishing-backend
+  name: fishing-backend-lb
   labels:
-    app: fishing-backend
+    app: fishing-backend-lb
 spec:
   ports:
     - name: fishing-backend
@@ -51,7 +51,7 @@ spec:
 #spec:
 #  type: LoadBalancer
 #  ports:
-#  - port: 80
+#  - port: 8080
 #    protocol: TCP
 #    targetPort: 8080
 #  selector:

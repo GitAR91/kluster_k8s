@@ -30,18 +30,29 @@ spec:
             - name: PROFILE
               value: "cluster"
 ---
+#apiVersion: v1
+#kind: Service
+#metadata: 
+# name: fishing-frontend-port
+#spec:
+# type: NodePort
+# selector:   
+#   app: fishing-frontend
+# ports: 
+# - name: http
+#   port: 80
+#   targetPort: 80
+#   nodePort: 30036
+#   protocol: TCP 
 apiVersion: v1
 kind: Service
-metadata: 
- name: fishing-frontend-port
+metadata:
+  name: fishing-frontend-lb
 spec:
- type: NodePort
- selector:   
-   app: fishing-frontend
- ports: 
- - name: http
-   port: 80
-   targetPort: 80
-   nodePort: 30036
-   protocol: TCP 
-     
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: fishing-frontend   
